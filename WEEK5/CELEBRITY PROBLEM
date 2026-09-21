@@ -1,1 +1,49 @@
+#include <stdio.h>
 
+int knows(int M[6][6], int a, int b) {
+    return M[a][b];
+}
+
+int findCelebrity(int M[6][6]) {
+    int a = 0;
+    int b = 6 - 1;
+
+    while (a < b) {
+        if (knows(M, a, b)) {
+            a++;
+        } else {
+            b--;
+        }
+    }
+
+    for (int i = 0; i < 6; i++) {
+        if (i != a) {
+            if (knows(M, a, i) || !knows(M, i, a)) {
+                return -1;
+            }
+        }
+    }
+
+    return a;
+}
+
+int main() {
+    int M[6][6] = {
+        {0, 0, 1, 0, 0, 0},
+        {0, 0, 1, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0},
+        {0, 0, 1, 0, 0, 1},
+        {0, 0, 1, 0, 0, 0},
+        {0, 0, 1, 0, 0, 0}
+    };
+
+    int result = findCelebrity(M);
+
+    if (result == -1) {
+        printf("No celebrity found\n");
+    } else {
+        printf("Celebrity is person %d\n", result);
+    }
+
+    return 0;
+}
